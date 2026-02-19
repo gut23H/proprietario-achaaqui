@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Painel Oficial Seguro - Acha Aqui</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+* { box-sizing:border-box; margin:0; padding:0; font-family: 'Roboto', sans-serif; }
+body { background:#f0f3f7; color:#333; display:flex; min-height:100vh; }
+
+/* LOGIN */
+#loginBox {
+  position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.4);
+  display:flex; justify-content:center; align-items:center; z-index:10;
+}
+.login-box-inner {
+  background:white; padding:40px; border-radius:15px; box-shadow:0 10px 30px rgba(0,0,0,0.2); text-align:center; width:300px;
+}
+.login-box-inner h2 { margin-bottom:20px; color:#1c92d2; }
+.login-box-inner input { padding:12px; width:100%; margin:10px 0; border-radius:10px; border:1px solid #ccc; font-size:16px; }
+.login-box-inner button { padding:12px 25px; border:none; border-radius:25px; background:#1c92d2; color:white; font-weight:bold; cursor:pointer; transition:0.3s; }
+.login-box-inner button:hover { background:#145a9e; }
+.login-box-inner .erro { color:red; margin-top:10px; display:none; }
+
+/* SIDEBAR */
+.sidebar {
+  width:250px;
+  background: linear-gradient(180deg, #1c92d2, #7ca8e9);
+  color:white;
+  display:flex;
+  flex-direction:column;
+  padding:20px;
+  display:none; /* inicialmente escondida */
+}
+.sidebar h2 { text-align:center; margin-bottom:30px; }
+.sidebar button {
+  padding:12px 20px;
+  margin-bottom:10px;
+  border:none;
+  border-radius:10px;
+  background: rgba(255,255,255,0.1);
+  color:white;
+  font-weight:500;
+  cursor:pointer;
+  text-align:left;
+  transition:0.3s;
+}
+.sidebar button:hover {
+  background: rgba(255,255,255,0.3);
+}
+
+/* CONTEÚDO PRINCIPAL */
+.main {
+  flex:1;
+  display:flex;
+  flex-direction:column;
+}
+header {
+  background:white;
+  padding:15px 20px;
+  box-shadow:0 2px 8px rgba(0,0,0,0.1);
+  font-size:24px;
+  font-weight:700;
+}
+iframe {
+  flex:1;
+  border:none;
+  margin:15px;
+  border-radius:15px;
+  box-shadow:0 4px 15px rgba(0,0,0,0.2);
+  background:white;
+  width: calc(100% - 30px);
+}
+
+/* RESPONSIVO */
+@media(max-width:768px){
+  body { flex-direction:column; }
+  .sidebar { width:100%; flex-direction:row; overflow-x:auto; }
+  .sidebar button { flex:1; white-space:nowrap; margin:5px; }
+  iframe { width:100%; margin:0; border-radius:0; }
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="loginBox">
+  <div class="login-box-inner">
+    <h2>Digite a senha</h2>
+    <input type="password" id="senha" placeholder="Senha">
+    <br>
+    <button onclick="verificarSenha()">Entrar</button>
+    <div class="erro" id="erro">Senha incorreta!</div>
+  </div>
+</div>
+
+<!-- SIDEBAR -->
+<div class="sidebar" id="sidebar">
+  <h2>Painel Oficial</h2>
+  <button onclick="abrirModulo('denuncias')">🚩 Denúncias</button>
+  <button onclick="abrirModulo('naoVerificados')">❌ Não Verificados</button>
+  <button onclick="abrirModulo('pedidos')">⭐ Pedidos Verificação</button>
+  <button onclick="abrirModulo('site')">🌐 Site Oficial</button>
+</div>
+
+<!-- CONTEÚDO -->
+<div class="main" id="mainContent" style="display:none;">
+  <header>Dashboard Acha Aqui</header>
+  <iframe id="iframeModulo" src="https://gut23h.github.io/adm_denuncias/"></iframe>
+</div>
+
+<script>
+const senhaCorreta = "12345"; // 🔑 altere para sua senha
+const loginBox = document.getElementById("loginBox");
+const sidebar = document.getElementById("sidebar");
+const mainContent = document.getElementById("mainContent");
+const erro = document.getElementById("erro");
+const iframe = document.getElementById("iframeModulo");
+
+function verificarSenha(){
+  const input = document.getElementById("senha").value;
+  if(input === senhaCorreta){
+    loginBox.style.display = "none";
+    sidebar.style.display = "flex";
+    mainContent.style.display = "flex";
+  } else {
+    erro.style.display = "block";
+    setTimeout(()=>{erro.style.display="none";}, 2000);
+  }
+}
+
+function abrirModulo(modulo){
+  switch(modulo){
+    case "denuncias":
+      iframe.src = "https://gut23h.github.io/denunciasapp/";
+      break;
+    case "naoVerificados":
+      iframe.src = "https://gut23h.github.io/vereficao-adm/";
+      break;
+    case "pedidos":
+      iframe.src = "https://gut23h.github.io/adm-site-vr/";
+      break;
+    case "site":
+      iframe.src = "https://gut23h.github.io/AchaAqui/";
+      break;
+  }
+}
+</script>
+
+</body>
+</html>
