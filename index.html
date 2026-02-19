@@ -3,25 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Painel Oficial Seguro - Acha Aqui</title>
+<title>Painel Oficial - Acha Aqui</title>
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 * { box-sizing:border-box; margin:0; padding:0; font-family: 'Roboto', sans-serif; }
 body { background:#f0f3f7; color:#333; display:flex; min-height:100vh; }
-
-/* LOGIN */
-#loginBox {
-  position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.4);
-  display:flex; justify-content:center; align-items:center; z-index:10;
-}
-.login-box-inner {
-  background:white; padding:40px; border-radius:15px; box-shadow:0 10px 30px rgba(0,0,0,0.2); text-align:center; width:300px;
-}
-.login-box-inner h2 { margin-bottom:20px; color:#1c92d2; }
-.login-box-inner input { padding:12px; width:100%; margin:10px 0; border-radius:10px; border:1px solid #ccc; font-size:16px; }
-.login-box-inner button { padding:12px 25px; border:none; border-radius:25px; background:#1c92d2; color:white; font-weight:bold; cursor:pointer; transition:0.3s; }
-.login-box-inner button:hover { background:#145a9e; }
-.login-box-inner .erro { color:red; margin-top:10px; display:none; }
 
 /* SIDEBAR */
 .sidebar {
@@ -31,7 +17,6 @@ body { background:#f0f3f7; color:#333; display:flex; min-height:100vh; }
   display:flex;
   flex-direction:column;
   padding:20px;
-  display:none;
 }
 .sidebar h2 { text-align:center; margin-bottom:30px; }
 .sidebar button {
@@ -101,16 +86,6 @@ iframe {
 </head>
 <body>
 
-<!-- LOGIN -->
-<div id="loginBox">
-  <div class="login-box-inner">
-    <h2>Digite a senha</h2>
-    <input type="password" id="senha" placeholder="Senha">
-    <button onclick="verificarSenha()">Entrar</button>
-    <div class="erro" id="erro">Senha incorreta!</div>
-  </div>
-</div>
-
 <!-- SIDEBAR -->
 <div class="sidebar" id="sidebar">
   <h2>Painel Oficial</h2>
@@ -119,11 +94,11 @@ iframe {
   <button onclick="abrirModulo('pedidos')">⭐ Pedidos Verificação</button>
   <button onclick="abrirModulo('site')">🌐 Site Oficial</button>
   <button onclick="abrirModulo('dados')">📊 Dados do Site</button>
-  <button onclick="abrirModulo('pix')">Gerar pagemento Pix</button>
+  <button onclick="abrirModulo('pix')">💰 Gerar pagamento Pix</button>
 </div>
 
 <!-- CONTEÚDO -->
-<div class="main" id="mainContent" style="display:none;">
+<div class="main" id="mainContent">
   <header>Dashboard Acha Aqui</header>
 
   <div id="dadosBox">
@@ -136,27 +111,8 @@ iframe {
 </div>
 
 <script>
-const senhaCorreta = "12345";
-const loginBox = document.getElementById("loginBox");
-const sidebar = document.getElementById("sidebar");
-const mainContent = document.getElementById("mainContent");
-const erro = document.getElementById("erro");
 const iframe = document.getElementById("iframeModulo");
 const dadosBox = document.getElementById("dadosBox");
-
-/* LOGIN */
-function verificarSenha(){
-  const input = document.getElementById("senha").value;
-  if(input === senhaCorreta){
-    loginBox.style.display = "none";
-    sidebar.style.display = "flex";
-    mainContent.style.display = "flex";
-    registrarVisita();
-  } else {
-    erro.style.display = "block";
-    setTimeout(()=>{erro.style.display="none";}, 2000);
-  }
-}
 
 /* MÓDULOS */
 function abrirModulo(modulo){
@@ -176,7 +132,7 @@ function abrirModulo(modulo){
     case "site":
       iframe.src = "https://gut23h.github.io/AchaAqui/";
       break;
-      case "pix":
+    case "pix":
       iframe.src = "https://gut23h.github.io/pix-achaaqui/";
       break;
     case "dados":
@@ -192,30 +148,17 @@ function registrarVisita(){
   let visitas = localStorage.getItem("visitas") || 0;
   visitas++;
   localStorage.setItem("visitas", visitas);
-
   localStorage.setItem("ultimoAcesso", new Date().toLocaleString());
-
-  let online = sessionStorage.getItem("online");
-  if(!online){
-    let onlineAgora = localStorage.getItem("onlineAgora") || 0;
-    onlineAgora++;
-    localStorage.setItem("onlineAgora", onlineAgora);
-    sessionStorage.setItem("online", "1");
-  }
-
-  window.addEventListener("beforeunload", ()=>{
-    let onlineAgora = localStorage.getItem("onlineAgora") || 1;
-    onlineAgora--;
-    localStorage.setItem("onlineAgora", onlineAgora);
-  });
 }
+registrarVisita();
 
 function atualizarDados(){
   document.getElementById("totalVisitas").innerText = localStorage.getItem("visitas") || 0;
-  document.getElementById("onlineAgora").innerText = localStorage.getItem("onlineAgora") || 0;
+  document.getElementById("onlineAgora").innerText = "1";
   document.getElementById("ultimoAcesso").innerText = localStorage.getItem("ultimoAcesso") || "---";
 }
 </script>
 
 </body>
 </html>
+
